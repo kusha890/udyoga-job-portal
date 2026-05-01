@@ -1,6 +1,6 @@
 # UDYOGA MAYA - Job Portal (Django)
 
-![Project Banner](Readme,png.png)
+![Project Banner](Readme.png.png)
 
 ## About the Project
 A comprehensive Job Portal built with Django, featuring secure authentication, student dashboards with status tracking, and an interactive rating system.
