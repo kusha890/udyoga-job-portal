@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .rating-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .rating-card {
+        background: #111;
+        border: 1px solid #222;
+        border-radius: 24px;
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    /* STAR RATING */
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        gap: 12px;
+        margin: 25px 0;
+    }
+
+    .star-rating input { display: none; }
+
+    .star-rating label {
+        font-size: 45px;
+        color: #222;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .star-rating label:before { content: '★'; }
+
+    
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: #c5a059;
+        text-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+    }
+
+    .feedback-box {
+        width: 100%;
+        background: #1a1a1a;
+        border: 1px solid #333;
+        color: #f8fafc;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 25px;
+        outline: none;
+        resize: none;
+    }
+
+    .feedback-box:focus { border-color: #c5a059; }
+
+    .btn-submit {
+        background: #c5a059;
+        color: #000;
+        font-weight: 800;
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: none;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        transition: 0.3s;
+    }
+
+    .btn-submit:hover {
+        background: #e2ba6e;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="rating-wrapper">
+    <div class="rating-card">
+        <h2 style="color: #f8fafc; font-weight: 800; margin-bottom: 8px;">Rate Your Experience</h2>
+        <p style="color: #c5a059; font-size: 14px; font-weight: 500;">Help us improve Udyoga Maya</p>
+
+        <form method="POST" action="{% url 'rate_experience' %}">
+            {% csrf_token %}
+            
+            <div class="star-rating">
+                <input type="radio" id="star5" name="rating" value="5" required />
+                <label for="star5"></label>
+                <input type="radio" id="star4" name="rating" value="4" />
+                <label for="star4"></label>
+                <input type="radio" id="star3" name="rating" value="3" />
+                <label for="star3"></label>
+                <input type="radio" id="star2" name="rating" value="2" />
+                <label for="star2"></label>
+                <input type="radio" id="star1" name="rating" value="1" />
+                <label for="star1"></label>
+            </div>
+
+            <textarea name="feedback" class="feedback-box" rows="4" placeholder="Write your comments here..."></textarea>
+
+            <button type="submit" class="btn-submit">Submit Feedback</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

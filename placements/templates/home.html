@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+   
+    @import url('https://rsms.me/inter/inter.css');
+
+    .page-wrapper {
+        background-color: #080808;
+        min-height: 100vh;
+        padding-top: 40px;
+        padding-bottom: 50px;
+        font-family: 'Inter', sans-serif;
+    }
+
+    
+    .thank-you-banner {
+        border: 1px solid #c5a059;
+        background: #000;
+        color: #ffffff;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        padding: 18px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+   
+    .search-section {
+        background: #111;
+        border: 1px solid #222;
+        padding: 25px;
+        border-radius: 20px;
+        margin-bottom: 40px;
+    }
+
+    .search-input {
+        background: #1a1a1a !important;
+        border: 1px solid #333 !important;
+        color: #ffffff !important;
+        padding: 14px 20px !important;
+        border-radius: 12px !important;
+        font-size: 15px;
+    }
+
+    .search-input::placeholder {
+        color: #ffffff !important; 
+        opacity: 0.5;
+    }
+
+    .btn-find {
+        background: #c5a059 !important; 
+        color: #000 !important;
+        font-weight: 800;
+        border-radius: 12px !important;
+        padding: 12px 30px !important;
+        text-transform: uppercase;
+        border: none !important;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        transition: 0.3s;
+        height: 100%; 
+    }
+
+    .btn-find:hover {
+        background: #d4af37 !important;
+        transform: translateY(-2px);
+    }
+
+  
+    .job-card {
+        background: #121212 !important;
+        border: 1px solid #222 !important;
+        border-radius: 24px !important;
+        transition: 0.3s ease;
+    }
+
+    .job-card:hover {
+        border-color: #c5a059 !important;
+        transform: translateY(-8px);
+    }
+
+    .company-name {
+        color: #c5a059;
+        font-weight: 800;
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .job-title {
+        color: #ffffff;
+        font-weight: 700;
+        margin: 10px 0 20px 0;
+    }
+
+
+    .info-box {
+        background: #1a1a1a; 
+        padding: 15px;
+        border-radius: 15px;
+        border: 1px solid #222;
+        text-align: center;
+    }
+
+    .label-text {
+        display: block;
+        color: #ffffff; 
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        opacity: 0.7;
+    }
+
+    .value-package {
+        color: #00ff88 !important; 
+        font-weight: 800;
+        font-size: 1.2rem;
+    }
+
+    .value-cgpa {
+        color: #38bdf8 !important; 
+        font-weight: 800;
+        font-size: 1.2rem;
+    }
+
+   
+    .btn-apply {
+        background: #c5a059 !important;
+        color: #000 !important;
+        font-weight: 800;
+        border-radius: 12px;
+        padding: 14px;
+        width: 100%;
+        border: none;
+        margin-top: 20px;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="container">
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="thank-you-banner alert alert-dismissible fade show" role="alert">
+                    <div>
+                        <span style="color: #c5a059; margin-right: 10px;">✔</span> 
+                        {{ message }}
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" style="filter: invert(1); background: none; border: none; color: white;">×</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="search-section">
+            <form method="GET" action="." class="row g-3">
+                <div class="col-md-9">
+                    <input type="text" name="search" class="form-control search-input" 
+                           placeholder="Search here by job title/role or company..." 
+                           value="{{ request.GET.search }}">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-find w-100">FIND JOBS</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="row g-4">
+            {% for job in jobs %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card job-card">
+                    <div class="card-body p-4">
+                        <div class="company-name">{{ job.company_name }}</div>
+                        <h4 class="job-title">{{ job.job_title }}</h4>
+                        
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="info-box">
+                                    <span class="label-text">Package</span>
+                                    <span class="value-package">{{ job.salary_lpa }} LPA</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="info-box">
+                                    <span class="label-text">Min CGPA</span>
+                                    <span class="value-cgpa">{{ job.min_cgpa_required }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if job.id in applied_jobs %}
+                            <button class="btn btn-secondary w-100 mt-3" disabled style="border-radius: 12px; background: #222; border: none; color: #555;">Applied</button>
+                        {% else %}
+                            <a href="{% url 'apply_now' job.id %}" class="btn btn-apply">Apply Now</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

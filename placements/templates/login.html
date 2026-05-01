@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    body {
+        background-color: #0a0a0a;
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        color: #fff;
+    }
+
+    .login-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .brand-title {
+        color: #c5a059;
+        font-size: 2.5rem;
+        font-weight: 900;
+        letter-spacing: 3px;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+    }
+
+    .login-card {
+        background: #111;
+        border: 1px solid #222;
+        padding: 50px 40px;
+        border-radius: 24px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+        text-align: center;
+    }
+
+    .login-card h2 { font-size: 28px; margin-bottom: 8px; font-weight: 700; }
+    .subtitle { color: #666; font-size: 14px; margin-bottom: 35px; }
+
+    .form-group { text-align: left; margin-bottom: 20px; }
+    .form-group label {
+        display: block;
+        color: #888;
+        font-size: 11px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .input-field {
+        width: 100%;
+        background: #1a1a1a;
+        border: 1px solid #333;
+        color: #fff;
+        padding: 14px;
+        border-radius: 12px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    .input-field:focus { border-color: #c5a059; outline: none; }
+
+    .forgot-link {
+        display: block;
+        text-align: right;
+        font-size: 13px;
+        color: #c5a059;
+        text-decoration: none;
+        margin-top: -10px;
+        margin-bottom: 30px;
+    }
+
+    .btn-login {
+        background: #c5a059;
+        color: #000;
+        width: 100%;
+        padding: 16px;
+        border-radius: 12px;
+        font-weight: 800;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+
+    .error-alert {
+        background: rgba(255, 77, 77, 0.1);
+        border: 1px solid #ff4d4d;
+        color: #ff4d4d;
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        font-size: 13px;
+        text-align: left;
+    }
+
+    .login-footer { margin-top: 35px; color: #555; font-size: 14px; }
+    .login-footer a { color: #c5a059; text-decoration: none; font-weight: 700; }
+</style>
+
+<div class="login-wrapper">
+    <div class="brand-title">Udyoga Maya</div>
+
+    <div class="login-card">
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Enter your identity to access the portal</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <input type="hidden" name="next" value="{% url 'home' %}">
+
+            {% if form.errors %}
+            <div class="error-alert">
+                Invalid username or password. Please try again.
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" class="input-field" placeholder="Username" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" class="input-field" placeholder="••••••••" required>
+            </div>
+
+            <a href="{% url 'password_reset' %}" class="forgot-link">Forgot password?</a>
+
+            <button type="submit" class="btn-login">Login to Account</button>
+        </form>
+    </div>
+
+    <div class="login-footer">
+        Don't have an account? <a href="{% url 'register' %}">Register Now</a>
+    </div>
+</div>
+
+{% endblock %}
