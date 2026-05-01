@@ -27,6 +27,6 @@ A comprehensive Job Portal built with Django, featuring secure authentication, s
 * Password Reset Functionality
 * Student Dashboard with Application Status Tracking
 ## Author
-* Usha
+ Usha
 * Admin Panel for Job and Application Management
 * Real-time Email Notifications (Console Backend)
